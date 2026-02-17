@@ -23,7 +23,9 @@ app.on("error",(error)=>{
 .catch((err)=>{
     console.log("MongoDB connection failed : ",err)
 })
-
+ 
+//using middleware
+app.use(express.json())
 
 //importing routes
 import UserRoutes from "./routes/user.routes.js"

@@ -14,9 +14,9 @@ export const loginUser = async(req,res)=>{
             })
         }
 
-        const otp = Math.floow(Math.random()*100000);
+        const otp = Math.floor(Math.random()*1000000);
 
-        const verifyToken = jwt.sign({user , otp},process.env.Activation_sec,{expiresIn:"5m"})
+        const verifyToken = jwt.sign({user , otp},process.env.ACTIVATION_SEC,{expiresIn:"5m"})
 
         await sendMail(email,"Chatbot",otp);
 
@@ -28,5 +28,32 @@ export const loginUser = async(req,res)=>{
         res.status(500).json({
             message:error.message,
         });
+    }
+};
+
+export const verifyUser = async(req,res)=>{
+    try {
+        const {otp,verifyToken} =  req.body 
+        const verify = jwt.verify(verifyToken,process.env.ACTIVATION_SEC)
+
+         if (String(verify.otp) !== String(otp)) {
+            return res.status(400).json({
+                message: "Wrong OTP"
+            });
+        }
+
+        const token = jwt.sign({_id: verify.user._id}, process.env.JWT_SEC,{
+            expiresIn: "5d"
+        })
+
+        res.json({
+            message:"Login successfully",
+            user:verify.user,
+            token,
+        })
+    } catch (error) {
+        res.status(500).json({
+            message:error.message,
+        })
     }
 }
