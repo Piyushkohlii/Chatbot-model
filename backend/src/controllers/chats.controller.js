@@ -77,7 +77,7 @@ export const getConversation = async(req,res)=>{
     }
 }
 
-export const deleteChat = async(req,res) =>{
+export const deleteChat = async(req,res)=>{
     try {
         const chat = await Chats.findById(req.params.id);
 
