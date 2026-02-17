@@ -29,6 +29,8 @@ app.use(express.json())
 
 //importing routes
 import UserRoutes from "./routes/user.routes.js"
+import ChatRoutes from "./routes/chat.routes.js"
 
 //using routes
 app.use("/api/user",UserRoutes)
+app.use("/api/chat",ChatRoutes)
