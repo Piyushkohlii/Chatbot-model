@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { UserData } from '../context/UserContext'
 import { useNavigate } from 'react-router-dom'
+import { LoadingSpinner } from '../components/Loading'
 
 const Login = () => {
   const [email,setEmail] = useState("")
@@ -31,7 +32,7 @@ const Login = () => {
             </div>
             <button className='bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700' 
             disabled={btnLoading}>
-              {btnLoading ? "Please Wait..." : "Submit"}
+              {btnLoading ? <LoadingSpinner/> : "Submit"}
             </button>
         </form>
     </div>
