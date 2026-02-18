@@ -1,12 +1,15 @@
 import dotenv from 'dotenv'
 import express from 'express'
 import connectDB from './database/db.js'
+import cors from 'cors'
 
 dotenv.config({
     path:'./.env'
 })
 
 const app = express()
+
+app.use(cors())
 
 const port = process.env.PORT || 7000
 
