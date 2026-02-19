@@ -30,7 +30,7 @@ export const UserProvider =({children})=>{
 
     const [isAuth , setIsAuth] = useState(false)
 
-    async function verifyUser(otp,navigate) {
+    async function verifyUser(otp,navigate,fetchChats) {
         const verifyToken = localStorage.getItem("verifyToken")
         if(!verifyToken) return toast.error("your otp is incorrect")
         setBtnLoading(true)
@@ -45,6 +45,7 @@ export const UserProvider =({children})=>{
             navigate("/")
             setIsAuth(true)
             setUser(data.user)
+            fetchChats
         } catch (error) {
             toast.error(error.response?.data?.message || "Something went wrong")
         }finally{
@@ -71,13 +72,20 @@ export const UserProvider =({children})=>{
         }
     }
 
-   
-    
     useEffect(()=>{
         fetchUser()
     },[])
+
+    const logoutHandler =()=>{
+        localStorage.clear()
+        toast.success("logged out")
+        setIsAuth(false)
+        setUser([])
+        navigate('/login')
+        
+    }
     return( 
-    <UserContext.Provider value={{btnLoading, loginUser, user , isAuth, setIsAuth, verifyUser, loading , fetchUser }}>
+    <UserContext.Provider value={{btnLoading, loginUser, user , isAuth, setIsAuth, verifyUser, loading , fetchUser , logoutHandler }}>
         {children}
         <Toaster/>
     </UserContext.Provider>
